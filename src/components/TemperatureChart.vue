@@ -1,7 +1,6 @@
-<!-- src/components/TemperatureChart.vue -->
 <template>
     <div>
-      <canvas  ref="chartCanvas"></canvas>
+      <canvas ref="chartCanvas"></canvas>
     </div>
   </template>
   

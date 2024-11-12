@@ -1,6 +1,6 @@
-<!-- src/components/LanguageSwitcher.vue -->
 <template>
     <div>
+      <!-- TODO update logic -->
       <button @click="switchLanguage('en')">English</button>
       <button @click="switchLanguage('uk')">Українська</button>
     </div>

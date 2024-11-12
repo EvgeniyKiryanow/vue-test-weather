@@ -1,17 +1,14 @@
 <template>
   <div>
-    <!-- City Autocomplete and Add City -->
     <CityAutocomplete :citiesCount="store.cities.length" @selectCity="fetchCityWeather" />
     <button v-if="store.cities.length < 5" @click="addWeatherCard">Add City</button>
 
-    <!-- Weather Cards and Temperature Charts -->
     <div v-if="loading"><PreloaderUi :isLoading="loading" /></div>
     <div v-for="city in store.cities" :key="city.id">
         <WeatherCard :weather="city" @deleteWeather="deleteWeather" />
         <TemperatureChart v-if="store.hourlyWeather[city.name]" :hourlyData="store.hourlyWeather[city.name]" />
     </div>
 
-    <!-- Confirmation and Limit Warning Modals -->
     <div v-if="isModalVisible" class="modal-overlay">
       <div class="modal">
         <p>Do you want to delete this block?</p>
@@ -42,15 +39,14 @@ import weatherService from '../services/weatherService';
 import PreloaderUi from "../components/Preloader.vue";
 
 export default defineComponent({
-  components: { CityAutocomplete, WeatherCard, TemperatureChart, PreloaderUi }, // Add Preloader here
+  components: { CityAutocomplete, WeatherCard, TemperatureChart, PreloaderUi },
   setup() {
     const store = useWeatherStore();
     const isModalVisible = ref(false);
     const isLimitModalVisible = ref(false);
     const weatherToDelete = ref<number | null>(null);
-    const loading = ref(false); // Loading state for preloader
+    const loading = ref(false);
 
-    // Fetch the user's city and their weather data on mounted
     onMounted(async () => {
       const userCity = await weatherService.getUserCity();
       if (userCity) {
@@ -59,18 +55,18 @@ export default defineComponent({
     });
 
     async function fetchCityWeather(cityName: string) {
-      loading.value = true; // Show preloader
+      loading.value = true; 
       try {
         const weather = await weatherService.getCurrentWeather(cityName);
         const forecast = await weatherService.getWeatherForecast(cityName);
         const fiveDayForecast = await weatherService.getFiveDayForecast(cityName);
         const formattedHourlyData = formatHourlyData(forecast);
         const formattedDailyData = formatDailyData(fiveDayForecast);
-        store.addCity(weather, formattedHourlyData, formattedDailyData); // Add city and forecast data to the store
+        store.addCity(weather, formattedHourlyData, formattedDailyData); 
       } catch (error) {
         console.error('Error fetching city weather:', error);
       } finally {
-        loading.value = false; // Hide preloader once data is loaded
+        loading.value = false; 
       }
     }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -105,7 +101,7 @@ export default defineComponent({
     }
 
     function addWeatherCard() {
-      const cityName = 'New York';  // Example city
+      const cityName = 'New York';  // TODO update
       fetchCityWeather(cityName);
     }
 
@@ -139,7 +135,7 @@ export default defineComponent({
       isLimitModalVisible,
       closeLimitModal,
       addWeatherCard,
-      loading, // Include loading state
+      loading,
     };
   },
 });

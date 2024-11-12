@@ -1,20 +1,14 @@
 <template>
     <div class="weather-card" :class="{ favorite: isFavorite }">
     <h3>{{ weather.name }}</h3>
-
-    <!-- Today's Weather View -->
     <div v-if="isDayView">
       <p>{{ weather.main.temp }}°C, {{ weather.weather[0].description }}</p>
     </div>
-
-    <!-- 5-Day Forecast View -->
     <div v-else>
       <div v-for="(forecast, index) in dailyForecasts" :key="index">
         <p>{{ forecast.date }} - Avg Temp: {{ forecast.avgTemp }}°C</p>
       </div>
     </div>
-
-    <!-- Toggle Button -->
     <button @click="toggleView">
       {{ isDayView ? 'View 5-Day Forecast' : 'View Today\'s Weather' }}
     </button>
@@ -53,7 +47,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const store = useWeatherStore();
     const isDeleting = ref(false);
-    const isDayView = ref(true); // For toggling between "day" and "5-day view"
+    const isDayView = ref(true); 
 
     const isFavorite = computed(() => store.favorites.some(fav => fav.id === props.weather.id));
 
@@ -74,21 +68,19 @@ export default defineComponent({
       isDayView.value = !isDayView.value;
     }
 
-    // Calculate the daily average temperature from hourly data
     const dailyForecasts = computed(() => {
       const hourlyData = store.hourlyWeather[props.weather.name];
       if (!hourlyData) return [];
 
       const groupedByDay: { [key: string]: number[] } = {};
       hourlyData.forEach(item => {
-        const day = item.time.split(' ')[0]; // Get the date part of the time
+        const day = item.time.split(' ')[0];
         if (!groupedByDay[day]) {
           groupedByDay[day] = [];
         }
         groupedByDay[day].push(item.temp);
       });
 
-      // Calculate average for each day
       return Object.entries(groupedByDay).map(([date, temps]) => {
         const avgTemp = temps.reduce((sum, temp) => sum + temp, 0) / temps.length;
         return { date, avgTemp: avgTemp.toFixed(1) };

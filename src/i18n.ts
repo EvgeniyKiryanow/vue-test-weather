@@ -25,8 +25,8 @@ const messages = {
 };
 
 const i18n = createI18n({
-  locale: 'en', // default language
+  locale: 'en', 
   messages
 });
-
+// TODO update i18n
 export default i18n;

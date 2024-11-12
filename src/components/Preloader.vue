@@ -1,4 +1,3 @@
-<!-- src/components/Preloader.vue -->
 <template v-if="isLoading">
   <div class="preloader-overlay">
     <div class="preloader"></div>
