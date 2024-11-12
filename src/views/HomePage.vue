@@ -89,6 +89,7 @@ export default defineComponent({
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     function formatHourlyData(forecast: any) {
+      // TODO: get each hour tmp
       const currentDate = new Date().getDate();
       return forecast.list
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

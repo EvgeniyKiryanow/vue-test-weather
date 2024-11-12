@@ -27,7 +27,8 @@ export const useWeatherStore = defineStore('weatherStore', {
 
     addCity(city: City, hourlyData: { time: string; temp: number }[], dailyForecast: { date: string; avgTemp: string }[]) {
       if (!this.cities.some(existingCity => existingCity.id === city.id)) {
-        this.cities.push(city);
+        // TODO use unshift
+        this.cities.unshift(city);
         this.hourlyWeather[city.name] = hourlyData;
         this.dailyForecasts[city.name] = dailyForecast;
       }
